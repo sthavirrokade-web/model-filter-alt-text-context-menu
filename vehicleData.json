@@ -1,263 +1,91 @@
 {
-  "Acura": {
-    "2020": ["ILX", "MDX", "RDX", "TLX"],
-    "2021": ["ILX", "MDX", "RDX", "TLX", "NSX"],
-    "2022": ["ILX", "MDX", "RDX", "TLX", "NSX"],
-    "2023": ["ILX", "MDX", "RDX", "TLX", "NSX", "Integra"],
-    "2024": ["ILX", "MDX", "RDX", "TLX", "NSX", "Integra"],
-    "2025": ["ILX", "MDX", "RDX", "TLX", "NSX", "Integra"],
-    "2026": ["ILX", "MDX", "RDX", "TLX", "NSX", "Integra"]
-  },
-  "BMW": {
-    "2020": ["3 Series", "5 Series", "7 Series", "X3", "X5", "X7", "i3", "i8"],
-    "2021": ["3 Series", "5 Series", "7 Series", "X3", "X5", "X7", "i3", "iX"],
-    "2022": ["3 Series", "5 Series", "7 Series", "X3", "X5", "X7", "i3", "iX", "i4"],
-    "2023": ["3 Series", "5 Series", "7 Series", "X3", "X5", "X7", "i3", "iX", "i4", "i7"],
-    "2024": ["3 Series", "5 Series", "7 Series", "X3", "X5", "X7", "i3", "iX", "i4", "i7"],
-    "2025": ["3 Series", "5 Series", "7 Series", "X3", "X5", "X7", "i3", "iX", "i4", "i7"],
-    "2026": ["3 Series", "5 Series", "7 Series", "X3", "X5", "X7", "i3", "iX", "i4", "i7"]
-  },
-  "Ferrari": {
-    "2020": ["488 Spider", "812 Superfast", "F8 Tributo", "Portofino", "Roma"],
-    "2021": ["488 Spider", "812 Superfast", "F8 Tributo", "Portofino", "Roma", "SF90 Stradale"],
-    "2022": ["488 Spider", "812 Superfast", "F8 Tributo", "Portofino", "Roma", "SF90 Stradale"],
-    "2023": ["488 Spider", "812 Superfast", "F8 Tributo", "Portofino", "Roma", "SF90 Stradale", "296 GTB"],
-    "2024": ["488 Spider", "812 Superfast", "F8 Tributo", "Portofino", "Roma", "SF90 Stradale", "296 GTB"],
-    "2025": ["488 Spider", "812 Superfast", "F8 Tributo", "Portofino", "Roma", "SF90 Stradale", "296 GTB"],
-    "2026": ["488 Spider", "812 Superfast", "F8 Tributo", "Portofino", "Roma", "SF90 Stradale", "296 GTB"]
-  },
-  "Ford": {
-    "2020": ["F-150", "Mustang", "Explorer", "Escape", "Edge", "Bronco"],
-    "2021": ["F-150", "Mustang", "Explorer", "Escape", "Edge", "Bronco", "Maverick"],
-    "2022": ["F-150", "Mustang", "Explorer", "Escape", "Edge", "Bronco", "Maverick"],
-    "2023": ["F-150", "Mustang", "Explorer", "Escape", "Edge", "Bronco", "Maverick"],
-    "2024": ["F-150", "Mustang", "Explorer", "Escape", "Edge", "Bronco", "Maverick"],
-    "2025": ["F-150", "Mustang", "Explorer", "Escape", "Edge", "Bronco", "Maverick"],
-    "2026": ["F-150", "Mustang", "Explorer", "Escape", "Edge", "Bronco", "Maverick"]
-  },
-  "Chevrolet": {
-    "2020": ["Silverado", "Tahoe", "Malibu", "Camaro", "Equinox", "Traverse"],
-    "2021": ["Silverado", "Tahoe", "Malibu", "Camaro", "Equinox", "Traverse"],
-    "2022": ["Silverado", "Tahoe", "Malibu", "Camaro", "Equinox", "Traverse"],
-    "2023": ["Silverado", "Tahoe", "Malibu", "Camaro", "Equinox", "Traverse"],
-    "2024": ["Silverado", "Tahoe", "Malibu", "Camaro", "Equinox", "Traverse"],
-    "2025": ["Silverado", "Tahoe", "Malibu", "Camaro", "Equinox", "Traverse"],
-    "2026": ["Silverado", "Tahoe", "Malibu", "Camaro", "Equinox", "Traverse"]
-  },
-  "Buick": {
-    "2020": ["Enclave", "Encore", "Regal", "Envision"],
-    "2021": ["Enclave", "Encore", "Regal", "Envision"],
-    "2022": ["Enclave", "Encore", "Regal", "Envision"],
-    "2023": ["Enclave", "Encore", "Regal", "Envision"],
-    "2024": ["Enclave", "Encore", "Regal", "Envision"],
-    "2025": ["Enclave", "Encore", "Regal", "Envision"],
-    "2026": ["Enclave", "Encore", "Regal", "Envision"]
-  },
-  "GMC": {
-    "2020": ["Yukon", "Sierra", "Terrain", "Acadia"],
-    "2021": ["Yukon", "Sierra", "Terrain", "Acadia"],
-    "2022": ["Yukon", "Sierra", "Terrain", "Acadia"],
-    "2023": ["Yukon", "Sierra", "Terrain", "Acadia"],
-    "2024": ["Yukon", "Sierra", "Terrain", "Acadia"],
-    "2025": ["Yukon", "Sierra", "Terrain", "Acadia"],
-    "2026": ["Yukon", "Sierra", "Terrain", "Acadia"]
-  },
-  "Cadillac": {
-    "2020": ["Escalade", "CT5", "XT5", "XT6"],
-    "2021": ["Escalade", "CT5", "XT5", "XT6"],
-    "2022": ["Escalade", "CT5", "XT5", "XT6"],
-    "2023": ["Escalade", "CT5", "XT5", "XT6"],
-    "2024": ["Escalade", "CT5", "XT5", "XT6"],
-    "2025": ["Escalade", "CT5", "XT5", "XT6"],
-    "2026": ["Escalade", "CT5", "XT5", "XT6"]
-  },
-  "Genesis": {
-    "2020": ["G70", "G80", "G90", "GV80"],
-    "2021": ["G70", "G80", "G90", "GV80"],
-    "2022": ["G70", "G80", "G90", "GV80", "GV70"],
-    "2023": ["G70", "G80", "G90", "GV80", "GV70"],
-    "2024": ["G70", "G80", "G90", "GV80", "GV70"],
-    "2025": ["G70", "G80", "G90", "GV80", "GV70"],
-    "2026": ["G70", "G80", "G90", "GV80", "GV70"]
-  },
-  "Honda": {
-    "2020": ["Civic", "Accord", "CR-V", "Pilot", "HR-V"],
-    "2021": ["Civic", "Accord", "CR-V", "Pilot", "HR-V"],
-    "2022": ["Civic", "Accord", "CR-V", "Pilot", "HR-V"],
-    "2023": ["Civic", "Accord", "CR-V", "Pilot", "HR-V"],
-    "2024": ["Civic", "Accord", "CR-V", "Pilot", "HR-V"],
-    "2025": ["Civic", "Accord", "CR-V", "Pilot", "HR-V"],
-    "2026": ["Civic", "Accord", "CR-V", "Pilot", "HR-V"]
-  },
-  "Hyundai": {
-    "2020": ["Elantra", "Sonata", "Tucson", "Santa Fe", "Palisade"],
-    "2021": ["Elantra", "Sonata", "Tucson", "Santa Fe", "Palisade"],
-    "2022": ["Elantra", "Sonata", "Tucson", "Santa Fe", "Palisade"],
-    "2023": ["Elantra", "Sonata", "Tucson", "Santa Fe", "Palisade"],
-    "2024": ["Elantra", "Sonata", "Tucson", "Santa Fe", "Palisade"],
-    "2025": ["Elantra", "Sonata", "Tucson", "Santa Fe", "Palisade"],
-    "2026": ["Elantra", "Sonata", "Tucson", "Santa Fe", "Palisade"]
-  },
-  "INFINITI": {
-    "2020": ["Q50", "Q60", "QX50", "QX60", "QX80"],
-    "2021": ["Q50", "Q60", "QX50", "QX60", "QX80"],
-    "2022": ["Q50", "Q60", "QX50", "QX60", "QX80"],
-    "2023": ["Q50", "Q60", "QX50", "QX60", "QX80"],
-    "2024": ["Q50", "Q60", "QX50", "QX60", "QX80"],
-    "2025": ["Q50", "Q60", "QX50", "QX60", "QX80"],
-    "2026": ["Q50", "Q60", "QX50", "QX60", "QX80"]
-  },
-  "Kia": {
-    "2020": ["Rio", "Forte", "Optima", "Sorento", "Telluride"],
-    "2021": ["Rio", "Forte", "K5", "Sorento", "Telluride"],
-    "2022": ["Rio", "Forte", "K5", "Sorento", "Telluride"],
-    "2023": ["Rio", "Forte", "K5", "Sorento", "Telluride"],
-    "2024": ["Rio", "Forte", "K5", "Sorento", "Telluride"],
-    "2025": ["Rio", "Forte", "K5", "Sorento", "Telluride"],
-    "2026": ["Rio", "Forte", "K5", "Sorento", "Telluride"]
-  },
-  "Lexus": {
-    "2020": ["ES", "RX", "GX", "LX", "NX"],
-    "2021": ["ES", "RX", "GX", "LX", "NX"],
-    "2022": ["ES", "RX", "GX", "LX", "NX"],
-    "2023": ["ES", "RX", "GX", "LX", "NX"],
-    "2024": ["ES", "RX", "GX", "LX", "NX"],
-    "2025": ["ES", "RX", "GX", "LX", "NX"],
-    "2026": ["ES", "RX", "GX", "LX", "NX"]
-  },
-  "Lincoln": {
-    "2020": ["MKZ", "Nautilus", "Aviator", "Navigator"],
-    "2021": ["Zephyr", "Nautilus", "Aviator", "Navigator"],
-    "2022": ["Zephyr", "Nautilus", "Aviator", "Navigator"],
-    "2023": ["Zephyr", "Nautilus", "Aviator", "Navigator"],
-    "2024": ["Zephyr", "Nautilus", "Aviator", "Navigator"],
-    "2025": ["Zephyr", "Nautilus", "Aviator", "Navigator"],
-    "2026": ["Zephyr", "Nautilus", "Aviator", "Navigator"]
-  },
-  "Maserati": {
-    "2020": ["Ghibli", "Quattroporte", "Levante"],
-    "2021": ["Ghibli", "Quattroporte", "Levante"],
-    "2022": ["Ghibli", "Quattroporte", "Levante"],
-    "2023": ["Ghibli", "Quattroporte", "Levante"],
-    "2024": ["Ghibli", "Quattroporte", "Levante"],
-    "2025": ["Ghibli", "Quattroporte", "Levante"],
-    "2026": ["Ghibli", "Quattroporte", "Levante"]
-  },
-  "Mazda": {
-    "2020": ["Mazda3", "Mazda6", "CX-3", "CX-5", "CX-9"],
-    "2021": ["Mazda3", "Mazda6", "CX-3", "CX-5", "CX-9"],
-    "2022": ["Mazda3", "Mazda6", "CX-3", "CX-5", "CX-9"],
-    "2023": ["Mazda3", "Mazda6", "CX-3", "CX-5", "CX-9"],
-    "2024": ["Mazda3", "Mazda6", "CX-3", "CX-5", "CX-9"],
-    "2025": ["Mazda3", "Mazda6", "CX-3", "CX-5", "CX-9"],
-    "2026": ["Mazda3", "Mazda6", "CX-3", "CX-5", "CX-9"]
-  },
-  "Mercedes-Benz": {
-    "2020": ["C-Class", "E-Class", "S-Class", "GLC", "GLE", "GLS"],
-    "2021": ["C-Class", "E-Class", "S-Class", "GLC", "GLE", "GLS"],
-    "2022": ["C-Class", "E-Class", "S-Class", "GLC", "GLE", "GLS"],
-    "2023": ["C-Class", "E-Class", "S-Class", "GLC", "GLE", "GLS"],
-    "2024": ["C-Class", "E-Class", "S-Class", "GLC", "GLE", "GLS"],
-    "2025": ["C-Class", "E-Class", "S-Class", "GLC", "GLE", "GLS"],
-    "2026": ["C-Class", "E-Class", "S-Class", "GLC", "GLE", "GLS"]
-  },
-  "MINI": {
-    "2020": ["Cooper", "Cooper S", "Countryman", "Clubman"],
-    "2021": ["Cooper", "Cooper S", "Countryman", "Clubman"],
-    "2022": ["Cooper", "Cooper S", "Countryman", "Clubman"],
-    "2023": ["Cooper", "Cooper S", "Countryman", "Clubman"],
-    "2024": ["Cooper", "Cooper S", "Countryman", "Clubman"],
-    "2025": ["Cooper", "Cooper S", "Countryman", "Clubman"],
-    "2026": ["Cooper", "Cooper S", "Countryman", "Clubman"]
-  },
-  "Mitsubishi": {
-    "2020": ["Mirage", "Outlander", "Outlander Sport"],
-    "2021": ["Mirage", "Outlander", "Outlander Sport"],
-    "2022": ["Mirage", "Outlander", "Outlander Sport"],
-    "2023": ["Mirage", "Outlander", "Outlander Sport"],
-    "2024": ["Mirage", "Outlander", "Outlander Sport"],
-    "2025": ["Mirage", "Outlander", "Outlander Sport"],
-    "2026": ["Mirage", "Outlander", "Outlander Sport"]
-  },
-  "Nissan": {
-    "2020": ["Sentra", "Altima", "Maxima", "Rogue", "Pathfinder", "Titan"],
-    "2021": ["Sentra", "Altima", "Maxima", "Rogue", "Pathfinder", "Titan"],
-    "2022": ["Sentra", "Altima", "Maxima", "Rogue", "Pathfinder", "Titan"],
-    "2023": ["Sentra", "Altima", "Maxima", "Rogue", "Pathfinder", "Titan"],
-    "2024": ["Sentra", "Altima", "Maxima", "Rogue", "Pathfinder", "Titan"],
-    "2025": ["Sentra", "Altima", "Maxima", "Rogue", "Pathfinder", "Titan"],
-    "2026": ["Sentra", "Altima", "Maxima", "Rogue", "Pathfinder", "Titan"]
-  },
-  "Porsche": {
-    "2020": ["911", "Cayenne", "Macan", "Panamera", "Taycan"],
-    "2021": ["911", "Cayenne", "Macan", "Panamera", "Taycan"],
-    "2022": ["911", "Cayenne", "Macan", "Panamera", "Taycan"],
-    "2023": ["911", "Cayenne", "Macan", "Panamera", "Taycan"],
-    "2024": ["911", "Cayenne", "Macan", "Panamera", "Taycan"],
-    "2025": ["911", "Cayenne", "Macan", "Panamera", "Taycan"],
-    "2026": ["911", "Cayenne", "Macan", "Panamera", "Taycan"]
-  },
-  "Retail": {
-    "2020": ["Generic Sedan", "Generic SUV"],
-    "2021": ["Generic Sedan", "Generic SUV"],
-    "2022": ["Generic Sedan", "Generic SUV"],
-    "2023": ["Generic Sedan", "Generic SUV"],
-    "2024": ["Generic Sedan", "Generic SUV"],
-    "2025": ["Generic Sedan", "Generic SUV"],
-    "2026": ["Generic Sedan", "Generic SUV"]
-  },
-  "Chrysler": {
-    "2020": ["300", "Pacifica", "Voyager"],
-    "2021": ["300", "Pacifica", "Voyager"],
-    "2022": ["300", "Pacifica", "Voyager"],
-    "2023": ["300", "Pacifica", "Voyager"],
-    "2024": ["300", "Pacifica", "Voyager"],
-    "2025": ["300", "Pacifica", "Voyager"],
-    "2026": ["300", "Pacifica", "Voyager"]
-  },
-  "Jeep": {
-    "2020": ["Grand Cherokee", "Wrangler", "Cherokee", "Compass", "Renegade"],
-    "2021": ["Grand Cherokee", "Wrangler", "Cherokee", "Compass", "Renegade"],
-    "2022": ["Grand Cherokee", "Wrangler", "Cherokee", "Compass", "Renegade"],
-    "2023": ["Grand Cherokee", "Wrangler", "Cherokee", "Compass", "Renegade"],
-    "2024": ["Grand Cherokee", "Wrangler", "Cherokee", "Compass", "Renegade"],
-    "2025": ["Grand Cherokee", "Wrangler", "Cherokee", "Compass", "Renegade"],
-    "2026": ["Grand Cherokee", "Wrangler", "Cherokee", "Compass", "Renegade"]
-  },
-  "Ram": {
-    "2020": ["1500", "2500", "3500"],
-    "2021": ["1500", "2500", "3500"],
-    "2022": ["1500", "2500", "3500"],
-    "2023": ["1500", "2500", "3500"],
-    "2024": ["1500", "2500", "3500"],
-    "2025": ["1500", "2500", "3500"],
-    "2026": ["1500", "2500", "3500"]
-  },
-  "Subaru": {
-    "2020": ["Impreza", "Legacy", "Outback", "Forester", "Crosstrek", "Ascent"],
-    "2021": ["Impreza", "Legacy", "Outback", "Forester", "Crosstrek", "Ascent"],
-    "2022": ["Impreza", "Legacy", "Outback", "Forester", "Crosstrek", "Ascent"],
-    "2023": ["Impreza", "Legacy", "Outback", "Forester", "Crosstrek", "Ascent"],
-    "2024": ["Impreza", "Legacy", "Outback", "Forester", "Crosstrek", "Ascent"],
-    "2025": ["Impreza", "Legacy", "Outback", "Forester", "Crosstrek", "Ascent"],
-    "2026": ["Impreza", "Legacy", "Outback", "Forester", "Crosstrek", "Ascent"]
-  },
-  "Toyota": {
-    "2020": ["Corolla", "Camry", "Prius", "RAV4", "Highlander", "Tacoma"],
-    "2021": ["Corolla", "Camry", "Prius", "RAV4", "Highlander", "Tacoma"],
-    "2022": ["Corolla", "Camry", "Prius", "RAV4", "Highlander", "Tacoma"],
-    "2023": ["Corolla", "Camry", "Prius", "RAV4", "Highlander", "Tacoma"],
-    "2024": ["Corolla", "Camry", "Prius", "RAV4", "Highlander", "Tacoma"],
-    "2025": ["Corolla", "Camry", "Prius", "RAV4", "Highlander", "Tacoma"],
-    "2026": ["Corolla", "Camry", "Prius", "RAV4", "Highlander", "Tacoma"]
-  },
-  "Volkswagen": {
-    "2020": ["Jetta", "Passat", "Tiguan", "Atlas"],
-    "2021": ["Jetta", "Passat", "Tiguan", "Atlas"],
-    "2022": ["Jetta", "Passat", "Tiguan", "Atlas"],
-    "2023": ["Jetta", "Passat", "Tiguan", "Atlas"],
-    "2024": ["Jetta", "Passat", "Tiguan", "Atlas"],
-    "2025": ["Jetta", "Passat", "Tiguan", "Atlas"],
-    "2026": ["Jetta", "Passat", "Tiguan", "Atlas"]
-  }
+  "makes": [
+    {
+      "name": "GMC",
+      "models": [
+        {
+          "name": "Terrain",
+          "trims": ["SLE", "SLT", "AT4", "Denali"]
+        },
+        {
+          "name": "Canyon",
+          "trims": ["Elevation", "AT4", "Denali"]
+        },
+        {
+          "name": "Acadia",
+          "trims": ["SLE", "SLT", "AT4", "Denali"]
+        },
+        {
+          "name": "Yukon",
+          "trims": ["SLE", "SLT", "AT4", "Denali"]
+        },
+        {
+          "name": "Sierra 1500",
+          "trims": ["Pro", "SLE", "SLT", "AT4", "Denali"]
+        },
+        {
+          "name": "Hummer EV",
+          "trims": ["Pickup", "SUV"]
+        }
+      ]
+    },
+    {
+      "name": "Chevrolet",
+      "models": [
+        {
+          "name": "Equinox",
+          "trims": ["LS", "LT", "RS", "Premier"]
+        },
+        {
+          "name": "Trailblazer",
+          "trims": ["LS", "LT", "RS", "Activ"]
+        },
+        {
+          "name": "Trax",
+          "trims": ["LS", "1RS", "LT", "2RS", "Activ"]
+        },
+        {
+          "name": "Tahoe",
+          "trims": ["LS", "LT", "RST", "Z71", "Premier", "High Country"]
+        },
+        {
+          "name": "Blazer",
+          "trims": ["2LT", "3LT", "RS", "Premier"]
+        },
+        {
+          "name": "Colorado",
+          "trims": ["WT", "LT", "Trail Boss", "ZR2"]
+        },
+        {
+          "name": "Corvette",
+          "trims": ["Stingray", "Z06", "E-Ray"]
+        },
+        {
+          "name": "Silverado 1500",
+          "trims": ["WT", "Custom", "LT", "RST", "LTZ", "High Country"]
+        }
+      ]
+    },
+    {
+      "name": "Buick",
+      "models": [
+        {
+          "name": "Envision",
+          "trims": ["Preferred", "Essence", "Avenir"]
+        },
+        {
+          "name": "Enclave",
+          "trims": ["Essence", "Premium", "Avenir"]
+        },
+        {
+          "name": "Envista",
+          "trims": ["Preferred", "Sport Touring", "Avenir"]
+        },
+        {
+          "name": "Encore GX",
+          "trims": ["Preferred", "Select", "Essence"]
+        }
+      ]
+    }
+  ]
 }

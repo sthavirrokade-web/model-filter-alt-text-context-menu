@@ -2,16 +2,19 @@
   "manifest_version": 3,
   "name": "Model Filter & Alt Text",
   "version": "1.0.0",
-  "description": "Insert vehicle data (OEM, Year, Model) into editable fields via context menu",
+  "description": "Insert vehicle models, trims, alt text, and search filters",
   "permissions": [
     "contextMenus",
-    "scripting"
+    "storage",
+    "sidePanel",
+    "commands"
   ],
   "host_permissions": [
     "<all_urls>"
   ],
   "background": {
-    "service_worker": "background.js"
+    "service_worker": "background.js",
+    "type": "module"
   },
   "content_scripts": [
     {
@@ -22,5 +25,17 @@
   ],
   "action": {
     "default_title": "Model Filter & Alt Text"
+  },
+  "side_panel": {
+    "default_path": "sidepanel.html"
+  },
+  "commands": {
+    "open-side-panel": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+D",
+        "mac": "Command+Shift+D"
+      },
+      "description": "Open Model Filter side panel"
+    }
   }
 }

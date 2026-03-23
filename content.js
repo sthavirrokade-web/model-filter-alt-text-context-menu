@@ -1,75 +1,80 @@
-﻿// =============================================================================
-// Content Script - Receives insertion command and enters text at cursor
-// =============================================================================
+﻿let lastFocusedElement = document.activeElement;
 
-let lastFocusedElement = document.activeElement;
-
-window.addEventListener("focusin", (event) => {
-  const target = event.target;
+function trackTarget(e) {
+  const el = e.target;
   if (
-    target &&
-    (target.tagName === "INPUT" ||
-      target.tagName === "TEXTAREA" ||
-      target.isContentEditable)
+    el &&
+    (el.tagName === "INPUT" ||
+      el.tagName === "TEXTAREA" ||
+      el.isContentEditable)
   ) {
-    lastFocusedElement = target;
-  }
-});
-
-// Track right-click target so context-menu action can insert into correct field
-
-window.addEventListener("contextmenu", (event) => {
-  const target = event.target;
-  if (
-    target &&
-    (target.tagName === "INPUT" ||
-      target.tagName === "TEXTAREA" ||
-      target.isContentEditable)
-  ) {
-    lastFocusedElement = target;
-  }
-});
-
-chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-  if (request.action === "insertVehicle") {
-    const text = request.text;
-    insertText(lastFocusedElement || document.activeElement, text);
-  }
-});
-
-function insertText(element, text) {
-  if (!element) return;
-
-  if (element.tagName === "INPUT" || element.tagName === "TEXTAREA") {
-    const startPos = element.selectionStart ?? 0;
-    const endPos = element.selectionEnd ?? 0;
-    const currentValue = element.value || "";
-
-    element.value =
-      currentValue.substring(0, startPos) +
-      text +
-      currentValue.substring(endPos);
-
-    const newCursorPos = startPos + text.length;
-    element.setSelectionRange(newCursorPos, newCursorPos);
-    element.focus();
-    element.dispatchEvent(new Event("input", { bubbles: true }));
-    element.dispatchEvent(new Event("change", { bubbles: true }));
-    return;
-  }
-
-  if (element.isContentEditable) {
-    const selection = window.getSelection();
-    if (!selection || selection.rangeCount === 0) {
-      element.textContent = (element.textContent || "") + text;
-      return;
-    }
-    const range = selection.getRangeAt(0);
-    range.deleteContents();
-    range.insertNode(document.createTextNode(text));
-    range.setStart(range.endContainer, range.endOffset);
-    range.collapse(true);
-    selection.removeAllRanges();
-    selection.addRange(range);
+    lastFocusedElement = el;
   }
 }
+
+window.addEventListener("focusin", trackTarget);
+window.addEventListener("contextmenu", trackTarget);
+
+/* Dealer ID via HTML comment */
+function extractDealerId() {
+  const it = document.createNodeIterator(
+    document.documentElement,
+    NodeFilter.SHOW_COMMENT
+  );
+  let node;
+  while ((node = it.nextNode())) {
+    const match = node.nodeValue.match(/Dealer ID:\s*(\d+)/i);
+    if (match) return match[1];
+  }
+  return null;
+}
+
+function extractDealerData() {
+  const dealerId = extractDealerId();
+  chrome.storage.local.set({
+    dealerStatus: dealerId ? "loaded" : "missing",
+    dealerId: dealerId || null
+  });
+}
+
+/* Analytics */
+function extractAnalytics() {
+  const codes = { ga: [], gtm: [] };
+  document.querySelectorAll("script").forEach(s => {
+    const src = s.src || "";
+    const gtm = src.match(/GTM-[A-Z0-9]+/);
+    const ga = src.match(/G-[A-Z0-9]+/);
+    if (gtm && !codes.gtm.includes(gtm[0])) codes.gtm.push(gtm[0]);
+    if (ga && !codes.ga.includes(ga[0])) codes.ga.push(ga[0]);
+  });
+  chrome.storage.local.set({ analyticsCodes: codes });
+}
+
+chrome.runtime.onMessage.addListener(req => {
+  if (req.action === "insertVehicle") {
+    insertText(lastFocusedElement, req.text);
+  }
+  if (req.action === "refreshDealerData") {
+    extractDealerData();
+    extractAnalytics();
+  }
+});
+
+function insertText(el, text) {
+  if (!el) return;
+  if (el.tagName === "INPUT" || el.tagName === "TEXTAREA") {
+    const s = el.selectionStart ?? 0;
+    const e = el.selectionEnd ?? 0;
+    el.value = el.value.slice(0, s) + text + el.value.slice(e);
+    el.setSelectionRange(s + text.length, s + text.length);
+    el.dispatchEvent(new Event("input", { bubbles: true }));
+    el.focus();
+  } else if (el.isContentEditable) {
+    document.execCommand("insertText", false, text);
+  }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  extractDealerData();
+  extractAnalytics();
+});

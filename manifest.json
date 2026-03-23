@@ -1,0 +1,26 @@
+{
+  "manifest_version": 3,
+  "name": "Model Filter & Alt Text",
+  "version": "1.0.0",
+  "description": "Insert vehicle data (OEM, Year, Model) into editable fields via context menu",
+  "permissions": [
+    "contextMenus",
+    "scripting"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "run_at": "document_start"
+    }
+  ],
+  "action": {
+    "default_title": "Model Filter & Alt Text"
+  }
+}

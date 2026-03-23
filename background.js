@@ -14,7 +14,6 @@ chrome.runtime.onStartup.addListener(initialize);
 
 chrome.contextMenus.onClicked.addListener((info, tab) => {
   const result = handleVehicleMenuClick(info);
-
   if (!result || !tab?.id) return;
 
   Promise.resolve(result).then(text => {
@@ -35,12 +34,10 @@ chrome.action.onClicked.addListener(tab => {
 chrome.commands.onCommand.addListener(command => {
   if (command === "open-side-panel") {
     chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
-      const tab = tabs[0];
-      if (!tab) return;
-
+      if (!tabs[0]) return;
       chrome.sidePanel.open({
-        tabId: tab.id,
-        windowId: tab.windowId
+        tabId: tabs[0].id,
+        windowId: tabs[0].windowId
       });
     });
   }

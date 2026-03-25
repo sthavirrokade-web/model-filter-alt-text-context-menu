@@ -1,36 +1,37 @@
 ﻿import {
-  loadVehicleData,
   createVehicleContextMenus,
   handleVehicleMenuClick
 } from "./vehicleMenu.js";
 
-async function initialize() {
-  await loadVehicleData();
+/* Initialize menus */
+function initialize() {
   createVehicleContextMenus();
 }
 
 chrome.runtime.onInstalled.addListener(initialize);
 chrome.runtime.onStartup.addListener(initialize);
 
+/* Handle context menu */
 chrome.contextMenus.onClicked.addListener((info, tab) => {
-  const result = handleVehicleMenuClick(info);
-  if (!result || !tab?.id) return;
+  if (!tab?.id) return;
 
-  Promise.resolve(result).then(text => {
-    if (!text) return;
-    chrome.tabs.sendMessage(tab.id, {
-      action: "insertVehicle",
-      text
-    });
+  const text = handleVehicleMenuClick(info);
+  if (!text) return;
+
+  chrome.tabs.sendMessage(tab.id, {
+    action: "insertVehicle",
+    text
   });
 });
 
+/* Toolbar opens side panel */
 chrome.action.onClicked.addListener(tab => {
   if (chrome.sidePanel?.open && tab?.windowId) {
     chrome.sidePanel.open({ windowId: tab.windowId });
   }
 });
 
+/* Keyboard shortcut */
 chrome.commands.onCommand.addListener(command => {
   if (command === "open-side-panel") {
     chrome.tabs.query({ active: true, currentWindow: true }, tabs => {

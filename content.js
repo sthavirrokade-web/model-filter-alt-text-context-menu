@@ -15,14 +15,27 @@ function trackTarget(e) {
 window.addEventListener("focusin", trackTarget);
 window.addEventListener("contextmenu", trackTarget);
 
-/* Dealer ID via HTML comment */
 function extractDealerId() {
-  const it = document.createNodeIterator(
+  /* Scan for JSON metadata */
+  const metaScript = document.getElementById("dealeron_website_metadata");
+  if (metaScript?.textContent) {
+    try {
+      const data = JSON.parse(metaScript.textContent);
+      if (data?.dealerId) {
+        return String(data.dealerId);
+      }
+    } catch (e) {
+      console.warn("Invalid dealer metadata JSON");
+    }
+  }
+
+  /* Fallback: HTML comment scan */
+  const iterator = document.createNodeIterator(
     document.documentElement,
     NodeFilter.SHOW_COMMENT
   );
   let node;
-  while ((node = it.nextNode())) {
+  while ((node = iterator.nextNode())) {
     const match = node.nodeValue.match(/Dealer ID:\s*(\d+)/i);
     if (match) return match[1];
   }
@@ -74,7 +87,27 @@ function insertText(el, text) {
   }
 }
 
+
+function extractMetaData() {
+  const titleTag = document.title(
+    'meta[property="og:title"]'
+  );
+  const title = titleTag?.getAttribute("content") || document.title || null;
+
+  const descTag = document.querySelector(
+    'meta[name="description"], meta[property="og:description"]'
+  );
+  const description = descTag?.getAttribute("content") || null;
+
+  chrome.storage.local.set({
+    metaTitle: title,
+    metaDescription: description
+  });
+}
+console.log(metaTitle, metaDescription)
+
 document.addEventListener("DOMContentLoaded", () => {
   extractDealerData();
   extractAnalytics();
+  extractMetaData();
 });

@@ -1,17 +1,11 @@
-const menuLookup = {};
-
 /* Create simplified menus */
 export function createVehicleContextMenus() {
   chrome.contextMenus.removeAll(() => {
     chrome.contextMenus.create({
       id: "supplies",
-      title: "SEO Supplies",
+      title: "Supplies",
       contexts: ["editable"]
     });
-
-    /* Alt Text */
-    menuLookup["alt-text"] =
-      "#CURRENTYEAR# #DEALERMAKE# (MODEL) in #CITY# #STATE#";
 
     chrome.contextMenus.create({
       id: "alt-text",
@@ -20,10 +14,6 @@ export function createVehicleContextMenus() {
       contexts: ["editable"]
     });
 
-    /* Filter */
-    menuLookup["filter"] =
-      "/searchnew.aspx?Year=2026&ModelAndTrim=(MODEL)";
-
     chrome.contextMenus.create({
       id: "filter",
       parentId: "supplies",
@@ -31,20 +21,28 @@ export function createVehicleContextMenus() {
       contexts: ["editable"]
     });
 
-    /* Dealer */
-    menuLookup["dealer"] =
-      "(BANNER_SUBJECT) at #NAME# in #CITY# #STATE#";
-
     chrome.contextMenus.create({
       id: "dealer",
       parentId: "supplies",
-      title: "Dealer",
+      title: "Dealer Alt",
       contexts: ["editable"]
     });
   });
 }
 
-/* Return pasted text */
+/* Return pasted text (NO in‑memory dependency) */
 export function handleVehicleMenuClick(info) {
-  return menuLookup[info.menuItemId] || null;
+  switch (info.menuItemId) {
+    case "alt-text":
+      return "#CURRENTYEAR# #DEALERMAKE# (insert model here) in #CITY# #STATE#";
+
+    case "filter":
+      return "/searchnew.aspx?Year=2026&ModelAndTrim=(insert model here)";
+
+    case "dealer":
+      return "(add banner context) at #NAME# in #CITY# #STATE#";
+
+    default:
+      return null;
+  }
 }

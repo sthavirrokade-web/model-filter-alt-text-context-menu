@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "Model Filter & Alt Text",
-  "version": "1.1.0",
-  "description": "Insert vehicle models, trims, alt text, and search filters",
+  "name": "Imp Stuff",
+  "version": "1.2.0",
+  "description": "Quality of life improvements at work",
   "permissions": [
     "contextMenus",
     "storage",
@@ -24,7 +24,7 @@
     }
   ],
   "action": {
-    "default_title": "Model Filter & Alt Text"
+    "default_title": "Imp Stuff"
   },
   "side_panel": {
     "default_path": "sidepanel.html"
@@ -35,7 +35,7 @@
         "default": "Ctrl+Shift+S",
         "mac": "Command+Shift+S"
       },
-      "description": "Open Model Filter side panel"
+      "description": "Open side panel"
     }
   }
 }

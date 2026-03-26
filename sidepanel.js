@@ -8,61 +8,108 @@ function initSidePanel() {
   loadData();
 
   chrome.storage.onChanged.addListener((changes, area) => {
-    if (area === "local") {
-      loadData();
-    }
+    if (area === "local") loadData();
   });
 }
 
 function refreshData() {
-  chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+  chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
     if (!tabs[0]?.id) return;
     chrome.tabs.sendMessage(tabs[0].id, {
-      action: "refreshDealerData"
+      action: "refreshData"
     });
   });
 }
 
 function loadData() {
   chrome.storage.local.get(
-    ["dealerId", "dealerStatus", "analyticsCodes"],
-    (result) => {
-      const statusEl = document.getElementById("status-message");
-      const dealerEl = document.getElementById("dealer-details");
-      const analyticsEl = document.getElementById("analytics-details");
-
-      statusEl.textContent = "";
-      dealerEl.innerHTML = "";
-      analyticsEl.innerHTML = "";
-
-      if (result.dealerStatus === "missing") {
-        statusEl.textContent = "Visit homepage to load data";
-        return;
-      }
-
-      if (result.dealerId) {
-        renderDetail(dealerEl, "Dealer ID", result.dealerId);
-      }
-
-      const analytics = result.analyticsCodes || { ga: [], gtm: [] };
-
-      analytics.ga.forEach(code =>
-        renderDetail(analyticsEl, "GA", code)
-      );
-
-      analytics.gtm.forEach(code =>
-        renderDetail(analyticsEl, "GTM", code)
-      );
+    ["schemaData", "analyticsCodes"],
+    ({ schemaData, analyticsCodes }) => {
+      renderAddress(schemaData);
+      renderGeo(schemaData);
+      renderSocial(schemaData);
+      renderAnalytics(analyticsCodes);
     }
   );
 }
 
-function renderDetail(container, label, value) {
+/* Master Render */
+
+function renderAddress(schema) {
+  const el = document.getElementById("address-info");
+  el.innerHTML = "";
+
+  if (!schema?.address) return renderEmpty(el);
+
+  const a = schema.address;
+  const text = [
+    a.street,
+    a.city && `${a.city}, ${a.state} ${a.zip}`,
+    a.country
+  ].filter(Boolean).join("\n");
+
+  text ? renderValue(el, text) : renderEmpty(el);
+}
+
+function renderGeo(schema) {
+  const el = document.getElementById("geo-info");
+  el.innerHTML = "";
+
+  if (!schema?.geo?.lat || !schema?.geo?.lng)
+    return renderEmpty(el);
+
+  renderLabeled(el, "Latitude", schema.geo.lat);
+  renderLabeled(el, "Longitude", schema.geo.lng);
+
+  if (schema.maps?.length) {
+    schema.maps.forEach(url => renderLabeled(el, "Map", url));
+  }
+}
+
+function renderSocial(schema) {
+  const el = document.getElementById("social-info");
+  el.innerHTML = "";
+
+  if (!schema?.social?.length) return renderEmpty(el);
+
+  schema.social.forEach(url => renderValue(el, url));
+}
+
+function renderAnalytics(codes) {
+  const el = document.getElementById("analytics-info");
+  el.innerHTML = "";
+
+  const data = codes || { ga4: [], ua: [], gtm: [] };
+  let found = false;
+
+  data.ga4.forEach(v => { found = true; renderLabeled(el, "GA4", v); });
+  data.ua.forEach(v => { found = true; renderLabeled(el, "UA", v); });
+  data.gtm.forEach(v => { found = true; renderLabeled(el, "GTM", v); });
+
+  if (!found) renderEmpty(el);
+}
+
+/* Support Functions */
+
+function renderValue(container, value) {
   const div = document.createElement("div");
   div.className = "detail";
-  div.textContent = `${label}: ${value}`;
-  div.addEventListener("click", () =>
-    navigator.clipboard.writeText(value)
-  );
+  div.textContent = value;
+  div.onclick = () => navigator.clipboard.writeText(value);
+  container.appendChild(div);
+}
+
+function renderLabeled(container, label, value) {
+  const div = document.createElement("div");
+  div.className = "detail";
+  div.innerHTML = `<div class="label">${label}</div>${value}`;
+  div.onclick = () => navigator.clipboard.writeText(value);
+  container.appendChild(div);
+}
+
+function renderEmpty(container) {
+  const div = document.createElement("div");
+  div.className = "no-data";
+  div.textContent = "No data found";
   container.appendChild(div);
 }

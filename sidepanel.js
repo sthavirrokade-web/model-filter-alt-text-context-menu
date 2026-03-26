@@ -23,17 +23,49 @@ function refreshData() {
 
 function loadData() {
   chrome.storage.local.get(
-    ["schemaData", "analyticsCodes"],
-    ({ schemaData, analyticsCodes }) => {
+    ["schemaData", "analyticsCodes", "providerInfo"],
+    ({ schemaData, analyticsCodes, providerInfo }) => {
       renderAddress(schemaData);
       renderGeo(schemaData);
       renderSocial(schemaData);
       renderAnalytics(analyticsCodes);
+      renderProvider(providerInfo);
     }
   );
 }
 
 /* Master Render */
+
+function renderProvider(provider) {
+  const el = document.getElementById("provider-info");
+  el.innerHTML = "";
+
+  if (!provider?.name) return renderEmpty(el);
+
+  const div = document.createElement("div");
+  div.className = "detail";
+
+  let icon = "";
+  let iconClass = "";
+
+  if (provider.confidence === "high") {
+    icon = "✔";
+    iconClass = "provider-icon provider-high";
+  } else if (provider.confidence === "medium") {
+    icon = "!";
+    iconClass = "provider-icon provider-medium";
+  }
+
+  div.innerHTML = `
+    ${icon ? `<span class="${iconClass}">${icon}</span>` : ""}
+    <div>
+      <div class="label">Platform</div>
+      ${provider.name}
+    </div>
+  `;
+
+  el.appendChild(div);
+}
 
 function renderAddress(schema) {
   const el = document.getElementById("address-info");

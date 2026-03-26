@@ -15,71 +15,19 @@ function trackTarget(e) {
 window.addEventListener("focusin", trackTarget);
 window.addEventListener("contextmenu", trackTarget);
 
-function extractDealerId() {
-  /* Scan for JSON metadata */
-  const metaScript = document.getElementById("dealeron_website_metadata");
-  if (metaScript?.textContent) {
-    try {
-      const data = JSON.parse(metaScript.textContent);
-      if (data?.dealerId) {
-        return String(data.dealerId);
-      }
-    } catch (e) {
-      console.warn("Invalid dealer metadata JSON");
-    }
-  }
-
-  /* Fallback: HTML comment scan */
-  const iterator = document.createNodeIterator(
-    document.documentElement,
-    NodeFilter.SHOW_COMMENT
-  );
-  let node;
-  while ((node = iterator.nextNode())) {
-    const match = node.nodeValue.match(/Dealer ID:\s*(\d+)/i);
-    if (match) return match[1];
-  }
-  return null;
-}
-
-function extractDealerData() {
-  const dealerId = extractDealerId();
-  chrome.storage.local.set({
-    dealerStatus: dealerId ? "loaded" : "missing",
-    dealerId: dealerId || null
-  });
-}
-
-/* Analytics */
-function extractAnalytics() {
-  const codes = { ga: [], gtm: [] };
-  document.querySelectorAll("script").forEach(s => {
-    const src = s.src || "";
-    const gtm = src.match(/GTM-[A-Z0-9]+/);
-    const ga = src.match(/G-[A-Z0-9]+/);
-    if (gtm && !codes.gtm.includes(gtm[0])) codes.gtm.push(gtm[0]);
-    if (ga && !codes.ga.includes(ga[0])) codes.ga.push(ga[0]);
-  });
-  chrome.storage.local.set({ analyticsCodes: codes });
-}
-
-chrome.runtime.onMessage.addListener(req => {
-  if (req.action === "insertVehicle") {
-    insertText(lastFocusedElement, req.text);
-  }
-  if (req.action === "refreshDealerData") {
-    extractDealerData();
-    extractAnalytics();
-  }
-});
-
 function insertText(el, text) {
-  if (!el) return;
+  if (!el || !text) return;
+
   if (el.tagName === "INPUT" || el.tagName === "TEXTAREA") {
-    const s = el.selectionStart ?? 0;
-    const e = el.selectionEnd ?? 0;
-    el.value = el.value.slice(0, s) + text + el.value.slice(e);
-    el.setSelectionRange(s + text.length, s + text.length);
+    const start = el.selectionStart ?? el.value.length;
+    const end = el.selectionEnd ?? el.value.length;
+
+    el.value =
+      el.value.slice(0, start) +
+      text +
+      el.value.slice(end);
+
+    el.setSelectionRange(start + text.length, start + text.length);
     el.dispatchEvent(new Event("input", { bubbles: true }));
     el.focus();
   } else if (el.isContentEditable) {
@@ -87,27 +35,111 @@ function insertText(el, text) {
   }
 }
 
+/* Extract Schema Data */
 
-function extractMetaData() {
-  const titleTag = document.title(
-    'meta[property="og:title"]'
+function extractSchemaData() {
+  const scripts = document.querySelectorAll(
+    'script[type="application/ld+json"]'
   );
-  const title = titleTag?.getAttribute("content") || document.title || null;
 
-  const descTag = document.querySelector(
-    'meta[name="description"], meta[property="og:description"]'
-  );
-  const description = descTag?.getAttribute("content") || null;
-
-  chrome.storage.local.set({
-    metaTitle: title,
-    metaDescription: description
+  const blocks = [];
+  scripts.forEach(script => {
+    try {
+      blocks.push(JSON.parse(script.textContent.trim()));
+    } catch {
+      /* ignore invalid JSON */
+    }
   });
+
+  const nodes = [];
+  blocks.forEach(b => {
+    if (Array.isArray(b)) nodes.push(...b);
+    else if (b?.["@graph"]) nodes.push(...b["@graph"]);
+    else if (typeof b === "object") nodes.push(b);
+  });
+
+  const result = {
+    address: {
+      street: null,
+      city: null,
+      state: null,
+      zip: null,
+      country: null
+    },
+    geo: {
+      lat: null,
+      lng: null
+    },
+    maps: [],
+    social: []
+  };
+
+  nodes.forEach(node => {
+    if (!node || typeof node !== "object") return;
+
+    if (node.address) {
+      result.address.street ||= node.address.streetAddress || null;
+      result.address.city ||= node.address.addressLocality || null;
+      result.address.state ||= node.address.addressRegion || null;
+      result.address.zip ||= node.address.postalCode || null;
+      result.address.country ||= node.address.addressCountry || null;
+    }
+
+    if (node.geo) {
+      result.geo.lat ||= node.geo.latitude || null;
+      result.geo.lng ||= node.geo.longitude || null;
+    }
+
+    if (node.hasMap) {
+      Array.isArray(node.hasMap)
+        ? result.maps.push(...node.hasMap)
+        : result.maps.push(node.hasMap);
+    }
+
+    if (Array.isArray(node.sameAs)) {
+      result.social.push(...node.sameAs);
+    }
+  });
+
+  result.maps = [...new Set(result.maps)];
+  result.social = [...new Set(result.social)];
+
+  chrome.storage.local.set({ schemaData: result });
 }
-console.log(metaTitle, metaDescription)
+
+/* GA/GTM Codes */
+
+function extractAnalytics() {
+  const codes = { ga4: [], ua: [], gtm: [] };
+
+  document.querySelectorAll("script[src]").forEach(script => {
+    const src = script.src || "";
+
+    const gtm = src.match(/GTM-[A-Z0-9]+/i);
+    const ga4 = src.match(/G-[A-Z0-9]+/i);
+    const ua = src.match(/UA-\d+-\d+/i);
+
+    if (gtm && !codes.gtm.includes(gtm[0])) codes.gtm.push(gtm[0]);
+    if (ga4 && !codes.ga4.includes(ga4[0])) codes.ga4.push(ga4[0]);
+    if (ua && !codes.ua.includes(ua[0])) codes.ua.push(ua[0]);
+  });
+  chrome.storage.local.set({ analyticsCodes: codes });
+}
+
+/* Refresh Data */
+
+chrome.runtime.onMessage.addListener(req => {
+  if (req.action === "insertVehicle") {
+    insertText(lastFocusedElement, req.text);
+  }
+
+  if (req.action === "refreshData") {
+    extractSchemaData();
+    extractAnalytics();
+  }
+});
 
 document.addEventListener("DOMContentLoaded", () => {
-  extractDealerData();
+  extractSchemaData();
   extractAnalytics();
-  extractMetaData();
 });

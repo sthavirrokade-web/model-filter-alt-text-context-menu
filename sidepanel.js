@@ -23,14 +23,15 @@ function refreshData() {
 
 function loadData() {
   chrome.storage.local.get(
-    ["schemaData", "analyticsCodes", "providerInfo", "metaInfo"],
-    ({ schemaData, analyticsCodes, providerInfo, metaInfo }) => {
+    ["schemaData", "analyticsCodes", "providerInfo", "metaInfo","currentURL"],
+    ({ schemaData, analyticsCodes, providerInfo, metaInfo, currentURL }) => {
       renderAddress(schemaData);
       renderGeo(schemaData);
       renderSocial(schemaData);
       renderAnalytics(analyticsCodes);
       renderProvider(providerInfo);
       renderMeta(metaInfo);
+      renderURL(currentURL);
     }
   );
 }
@@ -130,6 +131,14 @@ function renderMeta(meta) {
 
   if (meta.title) renderLabeled(el, "Title", meta.title);
   if (meta.description) renderLabeled(el, "Description", meta.description);
+}
+
+function renderURL(url) {
+  const el = document.getElementById("url-info");
+  el.innerHTML = "";
+
+  if (!url) return renderEmpty(el);
+  renderValue(el, url);
 }
 
 /* Support Functions */

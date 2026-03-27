@@ -186,6 +186,14 @@ function extractMeta(){
   chrome.storage.local.set({ metaInfo: { title, description: desc } });
 }
 
+/* Copy URL */
+
+function copyCurrentURL(){
+  const url =  window.location.href;
+  
+  chrome.storage.local.set({ currentURL: url });
+}
+
 /* Refresh Data */
 
 chrome.runtime.onMessage.addListener(req => {
@@ -197,6 +205,7 @@ chrome.runtime.onMessage.addListener(req => {
     extractSchemaData();
     extractAnalytics();
     extractMeta();
+    copyCurrentURL();
   }
 });
 
@@ -204,4 +213,5 @@ document.addEventListener("DOMContentLoaded", () => {
   extractSchemaData();
   extractAnalytics();
   extractMeta();
+  copyCurrentURL();
 });

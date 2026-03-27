@@ -23,13 +23,14 @@ function refreshData() {
 
 function loadData() {
   chrome.storage.local.get(
-    ["schemaData", "analyticsCodes", "providerInfo"],
-    ({ schemaData, analyticsCodes, providerInfo }) => {
+    ["schemaData", "analyticsCodes", "providerInfo", "metaInfo"],
+    ({ schemaData, analyticsCodes, providerInfo, metaInfo }) => {
       renderAddress(schemaData);
       renderGeo(schemaData);
       renderSocial(schemaData);
       renderAnalytics(analyticsCodes);
       renderProvider(providerInfo);
+      renderMeta(metaInfo);
     }
   );
 }
@@ -119,6 +120,16 @@ function renderAnalytics(codes) {
   data.gtm.forEach(v => { found = true; renderLabeled(el, "GTM", v); });
 
   if (!found) renderEmpty(el);
+}
+
+function renderMeta(meta) {
+  const el = document.getElementById("meta-info");
+  el.innerHTML = "";
+
+  if (!meta?.title && !meta?.description) return renderEmpty(el);
+
+  if (meta.title) renderLabeled(el, "Title", meta.title);
+  if (meta.description) renderLabeled(el, "Description", meta.description);
 }
 
 /* Support Functions */

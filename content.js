@@ -177,6 +177,15 @@ function extractAnalytics() {
   chrome.storage.local.set({ analyticsCodes: codes });
 }
 
+/* Meta Title Description */
+
+function extractMeta(){
+  const title = document.title || null;
+  const desc = document.querySelector('meta[name="description"]')?.content || null;
+
+  chrome.storage.local.set({ metaInfo: { title, description: desc } });
+}
+
 /* Refresh Data */
 
 chrome.runtime.onMessage.addListener(req => {
@@ -187,10 +196,12 @@ chrome.runtime.onMessage.addListener(req => {
   if (req.action === "refreshData") {
     extractSchemaData();
     extractAnalytics();
+    extractMeta();
   }
 });
 
 document.addEventListener("DOMContentLoaded", () => {
   extractSchemaData();
   extractAnalytics();
+  extractMeta();
 });
